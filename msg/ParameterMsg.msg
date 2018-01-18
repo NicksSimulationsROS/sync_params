@@ -1,0 +1,2 @@
+string key
+string xml

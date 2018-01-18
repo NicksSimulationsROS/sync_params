@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- Launch twice:
+      roslaunch sync_params example1.launch ns:=A -p 11311
+      roslaunch sync_params example1.launch ns:=B -p 11312
+  Then in a third terminal, type:
+      rosparam set param_key param_value
+  If successfull, the parameter will be detected in A, published on /params, 
+  then set in B.
+  
+  -->
+
+<launch>
+  <arg name="ns" default=""/>
+
+  <!-- Multi master. -->
+  <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery"/>
+  <node name="master_sync" pkg="master_sync_fkie" type="master_sync">
+  </node>
+  
+  <group ns="$(arg ns)">
+  
+    <!-- Synchronise parameters. -->
+    <node name="sync_params" pkg="sync_params" type="sync_params" output="screen">
+      <param name="debug" value="true"/>  <!-- Lots of printouts. -->
+    </node>
+    
+  </group>
+
+</launch>

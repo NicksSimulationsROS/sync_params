@@ -1,0 +1,4 @@
+blacklist:
+  [/*]
+whitelist:
+  [/run*,  /master*]
