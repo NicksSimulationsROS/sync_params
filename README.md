@@ -1,5 +1,5 @@
 # sync_params
-This package synchronises parameters between multiple masters. It periodically reads from the parameter server, publishes it to a global topic, then writes to the parameter server. It's intended to work accross multiple masters in [`multimaster_fkie`](http://wiki.ros.org/multimaster_fkie) setups.
+This package synchronises parameters between multiple masters. It periodically reads from the parameter server, publishes it to a global topic, then writes to the parameter server. It's intended to work across multiple masters in [`multimaster_fkie`](http://wiki.ros.org/multimaster_fkie) setups.
 
 Only new parameters will be written to the parameter server. No parameter will ever be overwritten.
 
