@@ -1,23 +1,16 @@
 # sync_params
-This package periodically reads from the parameter server, publishes it to a 
-global topic, then writes to the parameter server. It's intended to work
-accross multiple masters in [`multimaster_fkie`](http://wiki.ros.org/multimaster_fkie) setups.
+This package synchronises parameters between multiple masters. It periodically reads from the parameter server, publishes it to a global topic, then writes to the parameter server. It's intended to work accross multiple masters in [`multimaster_fkie`](http://wiki.ros.org/multimaster_fkie) setups.
 
-Only new parameters will be written to the parameter server. No parameter
-will ever be overwritten.
+Only new parameters will be written to the parameter server. No parameter will ever be overwritten.
 
-By default, all parameters will be synchronised. The `blacklist` excludes parameters
-based on their name. The `whitelist` parameters are exempt from the `blacklist`. 
-These can both be regular expressions. For example:
+By default, all parameters will be synchronised. The `blacklist` excludes parameters based on their name. The `whitelist` parameters are exempt from the `blacklist`. These can both be regular expressions. For example:
 ```
 blacklist = ["/*"]
 whitelist = [/my_parameter]
 ```
 Would only synchronise `my_parameter`.
 
-The parameter `use_cpp_time` is designed for spawning robots in Gazebo. Gazebo pauses
-the ROS clock when loading a robot, and waits for the `robot_description` parameter.
-But that parameter might not get synchronised if `sync_params` uses the ROS clock. 
+The parameter `use_cpp_time` is designed for spawning robots in Gazebo. Gazebo pauses the ROS clock when loading a robot, and waits for the `robot_description` parameter. But that parameter might not get synchronised if `sync_params` uses the ROS clock. 
 
 ## 1. Nodes
 ### 1.1 sync_params_node
