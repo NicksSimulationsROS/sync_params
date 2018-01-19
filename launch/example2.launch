@@ -10,10 +10,10 @@
   All parameters will be synchronised unless they are on the blacklist. Being
   on the whitelist will trump the blacklist. 
   For example:
-  Blacklist  WhiteList  Result
-  []         []         Everything is synchronised
-  *          []         Everything is blocked
-  *          /my_topic  Everything except my_topic is blocked
+  Blacklist  WhiteList   Result
+  []         []          Everything is synchronised
+  /*         []          Everything is blocked
+  /*         /my_param   Everything except my_topic is blocked
   
   The blacklist and whitelist apply to both outgoing and incoming parameter
   synchronisations.
@@ -24,11 +24,10 @@
 
   <!-- Multi master. -->
   <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery"/>
-  <node name="master_sync" pkg="master_sync_fkie" type="master_sync">
-  </node>
+  <node name="master_sync" pkg="master_sync_fkie" type="master_sync"/>
   
   <group ns="$(arg ns)">
-  
+        
     <!-- Synchronise parameters. -->
     <node name="sync_params" pkg="sync_params" type="sync_params" output="screen">
       <!-- Load parameters here: -->
@@ -37,7 +36,7 @@
       <!-- Or load parameters from file: -->
       <rosparam command="load" file="$(find sync_params)/config/sync.yaml"/>
     </node>
-    
+        
   </group>
 
 </launch>
