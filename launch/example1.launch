@@ -8,14 +8,12 @@
   then set in B.
   
   -->
-
 <launch>
   <arg name="ns" default=""/>
 
   <!-- Multi master. -->
   <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery"/>
-  <node name="master_sync" pkg="master_sync_fkie" type="master_sync">
-  </node>
+  <node name="master_sync" pkg="master_sync_fkie" type="master_sync"/>
   
   <group ns="$(arg ns)">
   
