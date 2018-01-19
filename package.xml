@@ -12,8 +12,5 @@
   <depend>message_generation</depend>
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
-  <build_export_depend>message_generation</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend>
 
 </package>
