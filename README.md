@@ -41,11 +41,11 @@ How many ROS seconds until publishing stops
 
 Whether to use computer clock instead of ROS clock. Does not affect `death_timer`
 
-`~blacklist` (`array`, default="`[]`")
+`~blacklist` (`array`, default=`[]`)
 
 List of parameter names to exclude from synchronising
 
-`~whitelist` (`array`, default="`[]`")
+`~whitelist` (`array`, default=`[]`)
 
 List of parameter names to exclude from the `blacklist`
 
