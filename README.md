@@ -37,7 +37,7 @@ The rate to read/publish/write parameters
 
 How many ROS seconds until publishing stops
 
-`~use_cpp_time` (`boolean`, default: `False`)
+`~use_wall_time` (`boolean`, default: `False`)
 
 Whether to use computer clock instead of ROS clock. Does not affect `death_timer`
 

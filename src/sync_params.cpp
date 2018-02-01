@@ -17,10 +17,15 @@
    to be published, then restored into an XmlRpcValue.
 */
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::vector;
+using sync_params::ParameterMsg;
 
 bool debug;                         //extra printouts if true
-bool use_cpp_time;                  //explanation in 'main'
+bool use_wall_time;                 //explanation in 'main'
 bool use_death_timer;               //if node should die after some time
 double death_timer;                 //seconds
 double rate;                        //parameter poll rate
@@ -39,13 +44,11 @@ ros::Subscriber param_sub;
 
 // From https://stackoverflow.com/questions/20406744
 // /how-to-find-and-replace-all-occurrences-of-a-substring-in-a-string
-std::string replaceAll( std::string const& original, 
-                        std::string const& from, 
-                        std::string const& to ) {
-  std::string results;
-  std::string::const_iterator end = original.end();
-  std::string::const_iterator current = original.begin();
-  std::string::const_iterator next = std::search( current, end, from.begin(), from.end() );
+string replaceAll(string const& original, string const& from, string const& to) {
+  string results;
+  string::const_iterator end = original.end();
+  string::const_iterator current = original.begin();
+  string::const_iterator next = std::search( current, end, from.begin(), from.end() );
   while ( next != end ) {
     results.append( current, next );
     results.append( to );
@@ -61,28 +64,28 @@ std::string replaceAll( std::string const& original,
  **************************************************/
  
 bool isOnBlackList( string key ){
-  ROS_DEBUG_STREAM("Blacklist check: " << key);
+  if(debug) ROS_WARN_STREAM("Blacklist check: " << key);
   for( int i=0; i< blacklist.size(); i++ ){
     std::regex reg(blacklist[i]);
     if( regex_match(key, reg) ){
-      ROS_DEBUG_STREAM(" TRUE ");;
+      if(debug) ROS_WARN_STREAM(" TRUE ");;
       return true;
     }
   }
-  ROS_DEBUG_STREAM(" FALSE ");
+  if(debug) ROS_WARN_STREAM(" FALSE ");
   return false;
 }
 
 bool isOnWhiteList( string key ){
-  ROS_DEBUG_STREAM("Whitelist check: " << key);
+  if(debug) ROS_WARN_STREAM("Whitelist check: " << key);
   for( int i=0; i< whitelist.size(); i++ ){
     std::regex reg(whitelist[i]);
     if( regex_match(key, reg) ){
-      ROS_DEBUG_STREAM(" TRUE " <<endl);
+      if(debug) ROS_WARN_STREAM(" TRUE " <<endl);
       return true;
     }
   }
-  if(debug) cout << " FALSE " <<endl;
+  if(debug) ROS_WARN_STREAM( " FALSE " <<endl);
   return false;
 }
  
@@ -90,8 +93,8 @@ bool isOnWhiteList( string key ){
  * Publisher functions
  **************************************************/
 
-void publishParam(sync_params::ParameterMsg param){
-  ROS_DEBUG_STREAM("Publishing: " << param.key);
+void publishParam(ParameterMsg param){
+  if(debug) ROS_WARN_STREAM("Publishing: " << param.key);
   param_pub.publish(param);
 } 
  
@@ -99,7 +102,7 @@ void publishParam(sync_params::ParameterMsg param){
  * Subscriber functions
  **************************************************/
 
-void subscribeParam(const sync_params::ParameterMsg::ConstPtr& msg) {
+void subscribeParam(const ParameterMsg::ConstPtr& msg) {
   string key = msg->key;
   string xml = msg->xml;
   if( isOnBlackList(key) && !isOnWhiteList(key) ) return;
@@ -107,7 +110,7 @@ void subscribeParam(const sync_params::ParameterMsg::ConstPtr& msg) {
   if( !new_entry ){
     return;
   }
-  ROS_DEBUG_STREAM("SyncParams: Synchronising parameter [" << key << "]");
+  if(debug) ROS_WARN_STREAM("SyncParams: Synchronising parameter [" << key << "]");
   int offset = 0;
   string const &xml2 = xml;
   XmlRpc::XmlRpcValue v(xml2, &offset);
@@ -144,7 +147,7 @@ void loadParams(ros::NodeHandle n_priv){
     }
   }
   n_priv.param("debug", debug, false);
-  n_priv.param("use_cpp_time", use_cpp_time, false);
+  n_priv.param("use_wall_time", use_wall_time, false);
   n_priv.param("rate", rate, 1.0);
   n_priv.param("death_timer", death_timer, -1.0);
   use_death_timer = false;
@@ -172,12 +175,13 @@ int main(int argc, char** argv){
   
   string key;
   XmlRpc::XmlRpcValue v;
-  sync_params::ParameterMsg msg;
+  ParameterMsg msg;
   vector<string> param_keys;
   ros::Time start_time = ros::Time::now();
   bool dead = false;
   
   ros::Rate r(rate);
+  ros::WallRate wr(rate);
   while( ros::ok() ){
     // For each key, add it to the map and publish.
     n.getParamNames(param_keys);
@@ -191,8 +195,9 @@ int main(int argc, char** argv){
     }
     // Handle callbacks.
     ros::spinOnce();
-    if( use_cpp_time ){
-      this_thread::sleep_for( chrono::milliseconds((int)(1000/rate)) );
+    if( use_wall_time ){
+      //this_thread::sleep_for( chrono::milliseconds((int)(1000/rate)) );
+      wr.sleep();
     } else {
       r.sleep();
     }

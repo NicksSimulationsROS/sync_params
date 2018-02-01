@@ -6,6 +6,7 @@
       rosparam set param_key param_value
   If successfull, the parameter will be detected in A, published on /params, 
   then set in B.
+  You can see the parameters with 'rosparam list'.
   
   -->
 <launch>
