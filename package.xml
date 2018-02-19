@@ -2,16 +2,20 @@
 <package format="2">
   <name>sync_params</name>
   <version>1.0.0</version>
-  <description>The sync_params package</description>
+  <description>Synchronises parameters across multiple masters.</description>
 
   <maintainer email="nick.dave.sullivan@gmail.com">Nick Sullivan</maintainer>
   <author     email="nick.dave.sullivan@gmail.com">Nick Sullivan</author>
   <license>BSD</license>
+  <url>https://github.com/NicksSimulationsROS/sync_params</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
   <depend>message_generation</depend>
   <depend>message_runtime</depend>
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
+  <depend>master_discovery_fkie</depend>
+  <depend>master_sync_fkie</depend>
 
 </package>

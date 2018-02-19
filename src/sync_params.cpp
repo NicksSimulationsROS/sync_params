@@ -102,6 +102,7 @@ void publishParam(ParameterMsg param){
  * Subscriber functions
  **************************************************/
 
+// Writes a parameter to the parameter server, if the parameter is new.
 void subscribeParam(const ParameterMsg::ConstPtr& msg) {
   string key = msg->key;
   string xml = msg->xml;
@@ -196,7 +197,6 @@ int main(int argc, char** argv){
     // Handle callbacks.
     ros::spinOnce();
     if( use_wall_time ){
-      //this_thread::sleep_for( chrono::milliseconds((int)(1000/rate)) );
       wr.sleep();
     } else {
       r.sleep();
@@ -208,3 +208,4 @@ int main(int argc, char** argv){
   }
   return 0;
 };
+
