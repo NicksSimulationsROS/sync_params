@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>sync_params</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>Synchronises parameters across multiple masters.</description>
 
   <maintainer email="nick.dave.sullivan@gmail.com">Nick Sullivan</maintainer>

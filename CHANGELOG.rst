@@ -2,8 +2,8 @@
 Changelog for package sync_params
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.1 (2018-02-19)
+------------------
 * added tests
 * Merge branch 'master' of https://github.com/NicksSimulationsROS/sync_params
 * cpp time to wall time
